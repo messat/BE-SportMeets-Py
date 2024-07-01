@@ -1,0 +1,21 @@
+{
+  "name": "be-sportmeets",
+  "version": "1.0.0",
+  "description": "Back-End Project using Python",
+  "main": "index.py",
+  "scripts": {
+    "start": "python3 index.py",
+    "setup-dbs":"psql -f setup.sql",
+    "playground": "psql -f test.sql > playground.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/messat/BE-SportMeets-Py.git"
+  },
+  "author": "Mo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/messat/BE-SportMeets-Py/issues"
+  },
+  "homepage": "https://github.com/messat/BE-SportMeets-Py#readme"
+}
