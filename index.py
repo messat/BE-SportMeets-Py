@@ -1,5 +1,6 @@
 import psycopg2
 from createTables import create_tables
+from insertData import insert_User_Data
 
 def connect():
     """ Connect to the PostgreSQL database server """
@@ -14,3 +15,4 @@ def connect():
 if __name__ == '__main__':
     connect()
     create_tables()
+    insert_User_Data()
