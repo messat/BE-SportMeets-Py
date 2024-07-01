@@ -10,11 +10,15 @@ def create_tables():
         DROP TABLE IF EXISTS events
         """,
         """
+        DROP TABLE IF EXISTS events
+        """,
+        """
         CREATE TABLE users (
-            user_id SERIAL PRIMARY KEY,
+            username PRIMARY KEY,
             name VARCHAR(150) NOT NULL,
             password VARCHAR(100) NOT NULL,
-            avatar_url VARCHAR NOT NULL)
+            avatar_url VARCHAR NOT NULL
+            )
         """,
         """
         CREATE TABLE events (
@@ -23,8 +27,10 @@ def create_tables():
             event_img_url VARCHAR(150) NOT NULL,
             event_description VARCHAR(150) NOT NULL,
             event_location VARCHAR(150) NOT NULL,
-            event_date DATE NOT NULL,
-            event_spaces_available VARCHAR(150) NOT NULL
+            event_date VARCHAR(100) NOT NULL,
+            event_time VARCHAR(100) NOT NULL,
+            event_spaces_available INT NOT NULL,
+            event_organiser VARCHAR NOT NULL REFERENCES users(username)
             )
         """,
     )
