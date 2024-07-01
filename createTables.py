@@ -6,7 +6,7 @@ def create_tables():
         """
         DROP TABLE IF EXISTS messages
         """,
-         """
+        """
         DROP TABLE IF EXISTS user_events_junction
         """,
         """
@@ -17,7 +17,7 @@ def create_tables():
         """,
         """
         CREATE TABLE users (
-            username PRIMARY KEY,
+            username VARCHAR(150) PRIMARY KEY,
             name VARCHAR(150) NOT NULL,
             password VARCHAR(100) NOT NULL,
             avatar_url VARCHAR NOT NULL
@@ -35,19 +35,21 @@ def create_tables():
             event_organiser VARCHAR NOT NULL REFERENCES users(username)
             )
         """,
-    """CREATE TABLE user_events_junction (
-        username VARCHAR NOT NULL REFERENCES users(username),
-        event_id INT NOT NULL REFERENCES events(event_id)
-    )
-    """,
-    """CREATE TABLE messages (
-        message_id SERIAL PRIMARY KEY, 
-        message_body VARCHAR NOT NULL,
-        created_at TIMESTAMP DEFAULT NOW(),
-        sender VARCHAR(100) NOT NULL REFERENCES users(username),
-        event_id INT NOT NULL REFERENCES events(event_id)
-    )
-    """
+        """
+        CREATE TABLE user_events_junction (
+            username VARCHAR NOT NULL REFERENCES users(username),
+            event_id INT NOT NULL REFERENCES events(event_id)
+        )
+        """,
+        """
+        CREATE TABLE messages (
+            message_id SERIAL PRIMARY KEY, 
+            message_body VARCHAR NOT NULL,
+            created_at TIMESTAMP DEFAULT NOW(),
+            sender VARCHAR(100) NOT NULL REFERENCES users(username),
+            event_id INT NOT NULL REFERENCES events(event_id)
+        )
+        """
     )
     try:
       
