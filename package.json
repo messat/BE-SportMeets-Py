@@ -6,7 +6,7 @@
   "scripts": {
     "start": "python3 index.py",
     "setup-dbs":"psql -f setup.sql",
-    "playground": "psql -f test.sql > playground.txt"
+    "testingField": "psql -f test.sql > playground.txt"
   },
   "repository": {
     "type": "git",

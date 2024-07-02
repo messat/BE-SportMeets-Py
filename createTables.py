@@ -39,8 +39,9 @@ def create_tables():
         CREATE TABLE user_events_junction (
             username VARCHAR NOT NULL REFERENCES users(username),
             event_id INT NOT NULL REFERENCES events(event_id)
+
         )
-        """,
+        """,       
         """
         CREATE TABLE messages (
             message_id SERIAL PRIMARY KEY, 
@@ -49,17 +50,14 @@ def create_tables():
             sender VARCHAR(100) NOT NULL REFERENCES users(username),
             event_id INT NOT NULL REFERENCES events(event_id)
         )
-        """
-    )
+        """)
     try:
-      
         with psycopg2.connect("dbname=sport_meets_test") as conn:
             with conn.cursor() as cur:
                 # execute the CREATE TABLE statement
                 for command in commands:
                     cur.execute(command)
+                conn.commit()
+                print('Successfully Created tables')
     except (psycopg2.DatabaseError, Exception) as error:
         print(error)
-
-if __name__ == '__main__':
-    create_tables()

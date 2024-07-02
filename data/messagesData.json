@@ -1,0 +1,17 @@
+[
+{
+    "message_body": "Hi, I would like to join this event",
+    "sender": "DannyBoy",
+    "event_id": 1
+},
+{
+    "message_body": "Welcome to the world of Social Meets Up!",
+    "sender": "Mo",
+    "event_id": 1
+},
+{
+    "message_body": "Hey the weather is looking nice!",
+    "sender": "Alex",
+    "event_id": 1
+}
+]

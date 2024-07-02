@@ -1,0 +1,28 @@
+[{
+    "event_name": "Soccer Star Solutions",
+    "event_img_url":"https://cdn.pixabay.com/photo/2016/05/27/14/33/football-1419954_640.jpg",
+    "event_description": "Playing football with Northcoders Colleagues",
+    "event_location": "Leeds",
+    "created_at": "2024-07-19 10:23:54", 
+    "event_spaces_available": 20,
+    "event_organiser": "Alex" 
+},
+{
+    "event_name": "Bounce Ballers",
+    "event_img_url": "https://storage.googleapis.com/pod_public/1300/180358.jpg",
+    "event_description": "Playing Basketball 5 v 5" ,
+    "event_location": "Leeds",
+    "created_at": "2024-07-24 16:45:20", 
+    "event_spaces_available": 10,
+    "event_organiser": "DannyBoy"
+},
+{
+
+    "event_name": "Birdie Bound",
+    "event_img_url": "https://cdn.shopify.com/s/files/1/0576/2750/8872/files/Golf_Birdie_480x480.jpg?v=1676301047",
+    "event_description": "Playing Golf with Big Boys",
+    "event_location": "Manchester",
+    "created_at": "2024-07-24 15:10:30", 
+    "event_spaces_available": 5,
+    "event_organiser": "Mo"
+}]
