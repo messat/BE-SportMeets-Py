@@ -35,10 +35,10 @@ def insert_Event_Data():
             with conn.cursor() as cur:
                 for event in event_data:
                     command = """
-                    INSERT INTO events (event_name, event_img_url, event_description, event_location, created_at, event_spaces_available, event_organiser)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING *;
+                    INSERT INTO events (event_name, event_img_url, event_description, event_location, created_at, event_spaces_available, event_category, event_organiser)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING *;
                     """
-                    values = (event["event_name"], event["event_img_url"], event["event_description"], event["event_location"], event["created_at"], event["event_spaces_available"], event["event_organiser"])
+                    values = (event["event_name"], event["event_img_url"], event["event_description"], event["event_location"], event["created_at"], event["event_spaces_available"], event["event_category"], event["event_organiser"])
                     cur.execute(command, values)
                     conn.commit()
                     

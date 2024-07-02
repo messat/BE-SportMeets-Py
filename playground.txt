@@ -6,11 +6,11 @@ You are now connected to database "sport_meets_test" as user "muhammadessat".
  Alex     | Alexandra | teacher  | https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrHWhVCrVug5Maodgb_dcJKvfpSjAG60Ooew&s
 (3 rows)
 
- event_id |      event_name       |                                        event_img_url                                        |              event_description               | event_location |     created_at      | event_spaces_available | event_organiser 
-----------+-----------------------+---------------------------------------------------------------------------------------------+----------------------------------------------+----------------+---------------------+------------------------+-----------------
-        1 | Soccer Star Solutions | https://cdn.pixabay.com/photo/2016/05/27/14/33/football-1419954_640.jpg                     | Playing football with Northcoders Colleagues | Leeds          | 2024-07-19 10:23:54 |                     20 | Alex
-        2 | Bounce Ballers        | https://storage.googleapis.com/pod_public/1300/180358.jpg                                   | Playing Basketball 5 v 5                     | Leeds          | 2024-07-24 16:45:20 |                     10 | DannyBoy
-        3 | Birdie Bound          | https://cdn.shopify.com/s/files/1/0576/2750/8872/files/Golf_Birdie_480x480.jpg?v=1676301047 | Playing Golf with Big Boys                   | Manchester     | 2024-07-24 15:10:30 |                      5 | Mo
+ event_id |      event_name       |                                        event_img_url                                        |              event_description               | event_location |     created_at      | event_spaces_available | event_category | event_organiser 
+----------+-----------------------+---------------------------------------------------------------------------------------------+----------------------------------------------+----------------+---------------------+------------------------+----------------+-----------------
+        1 | Soccer Star Solutions | https://cdn.pixabay.com/photo/2016/05/27/14/33/football-1419954_640.jpg                     | Playing football with Northcoders Colleagues | Leeds          | 2024-07-19 10:23:54 |                     20 | football       | Alex
+        2 | Bounce Ballers        | https://storage.googleapis.com/pod_public/1300/180358.jpg                                   | Playing Basketball 5 v 5                     | Leeds          | 2024-07-24 16:45:20 |                     10 | basketball     | DannyBoy
+        3 | Birdie Bound          | https://cdn.shopify.com/s/files/1/0576/2750/8872/files/Golf_Birdie_480x480.jpg?v=1676301047 | Playing Golf with Big Boys                   | Manchester     | 2024-07-24 15:10:30 |                      5 | Golf           | Mo
 (3 rows)
 
  username | event_id 
@@ -22,8 +22,8 @@ You are now connected to database "sport_meets_test" as user "muhammadessat".
 
  message_id |               message_body               |         created_at         |  sender  | event_id 
 ------------+------------------------------------------+----------------------------+----------+----------
-          1 | Hi, I would like to join this event      | 2024-07-02 08:51:47.935146 | DannyBoy |        1
-          2 | Welcome to the world of Social Meets Up! | 2024-07-02 08:51:47.936549 | Mo       |        1
-          3 | Hey the weather is looking nice!         | 2024-07-02 08:51:47.93674  | Alex     |        1
+          1 | Hi, I would like to join this event      | 2024-07-02 09:54:25.040106 | DannyBoy |        1
+          2 | Welcome to the world of Social Meets Up! | 2024-07-02 09:54:25.041432 | Mo       |        1
+          3 | Hey the weather is looking nice!         | 2024-07-02 09:54:25.041615 | Alex     |        1
 (3 rows)
 

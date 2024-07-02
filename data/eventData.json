@@ -5,6 +5,7 @@
     "event_location": "Leeds",
     "created_at": "2024-07-19 10:23:54", 
     "event_spaces_available": 20,
+    "event_category": "football",
     "event_organiser": "Alex" 
 },
 {
@@ -14,6 +15,7 @@
     "event_location": "Leeds",
     "created_at": "2024-07-24 16:45:20", 
     "event_spaces_available": 10,
+    "event_category": "basketball",
     "event_organiser": "DannyBoy"
 },
 {
@@ -24,5 +26,6 @@
     "event_location": "Manchester",
     "created_at": "2024-07-24 15:10:30", 
     "event_spaces_available": 5,
+    "event_category": "Golf",
     "event_organiser": "Mo"
 }]
