@@ -2,7 +2,7 @@
 
 SELECT * FROM users;
 
-SELECT * FROM events;
+SELECT * FROM events WHERE event_category = 'football' and event_location = 'Leeds';
 
 SELECT * FROM user_events_junction;
 

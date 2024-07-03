@@ -1,7 +1,4 @@
-from usermodel import selectAllUsers
-from usermodel import selectByUsername
-from usermodel import addSingleUser
-from usermodel import updateSingleUser
+from usermodel import selectAllUsers, selectByUsername, addSingleUser, updateSingleUser
 
 def getAllUsers():
     return selectAllUsers()
