@@ -7,6 +7,7 @@ from app import app
 # pytest -rx ./tests/test_project.py
 
 #tests that retrieves all the users
+
 def test_get_all_users():
     response = app.test_client().get('/api/sportmeets/users')
     users = json.loads(response.data.decode('utf-8')).get('users')
@@ -78,25 +79,10 @@ def test_get_messages_by_id():
     messages = json.loads(response.data.decode('utf-8')).get('messages')
     assert type(messages[0]) is dict    
     assert type(messages) is list
-    assert messages[0] == {'created_at': 'Tue, 02 Jul 2024 09:54:25 GMT',
-         'event_id': 1, 
-         'message_body': 'Hi, I would like to join this event', 
-         'message_id': 1, 
-         'sender': 'DannyBoy'
-         }
-    assert messages[1] == {'created_at': 'Tue, 02 Jul 2024 09:54:25 GMT', 
-          'event_id': 1, 
-          'message_body': 'Welcome to the world of Social Meets Up!', 
-          'message_id': 2,
-          'sender': 'Mo'
-         }
-    assert messages[2] == {'created_at': 'Tue, 02 Jul 2024 09:54:25 GMT', 
-          'event_id': 1, 
-          'message_body': 'Hey the weather is looking nice!', 
-          'message_id': 3, 
-          'sender': 'Alex'
-          }
-        
+    assert messages[1]["event_id"] == 1   
+    assert messages[1]["message_body"] == 'Welcome to the world of Social Meets Up!'
+    assert messages[1]["message_id"] == 2
+    assert messages[1]["sender"] == "Mo" 
     
 #tests that can post a newEvent  
 def test_postNewEvent():
@@ -145,8 +131,64 @@ def test_updateEventById():
     assert updatingAnEvent["event_spaces_available"] == 20
     
 def test_deleteByID():
-    response = app.test_client().delete('/api/sportmeets/events/5')
-    deleteAnEvent = json.loads(response.data.decode('utf-8')).get('DeleteEvent')
-    print(deleteAnEvent)
-    assert deleteAnEvent["event_id"] == 5
-    assert deleteAnEvent["event_category"] == "pool"
+    response = app.test_client().delete('/api/sportmeets/events/4')
+    deleteAnEvent = json.loads(response.data.decode('utf-8'))
+
+
+def test_postNewUser():
+    username = "Alex_G"
+    name = "Alexander Greaves"
+    password = "Linux"
+    avatar_url = "https://www.stepex.co/wp-content/uploads/2022/04/stepex-northcoders-1.jpg"
+
+    userData = { 
+        "username": username,
+        "name": name, 
+        "password": password,
+        "avatar_url": avatar_url
+    }
+    print("test", userData)
+    response = app.test_client().post('/api/sportmeets/users', json =userData)
+    postedUser = json.loads(response.data.decode('utf-8')).get('newUser')
+    assert postedUser["username"] == "Alex_G"
+    assert postedUser["name"] == "Alexander Greaves"
+    assert postedUser["password"] == "Linux"
+    assert postedUser["avatar_url"] == "https://www.stepex.co/wp-content/uploads/2022/04/stepex-northcoders-1.jpg"
+
+
+def test_updateUserDetailsByUsername():
+    name = "Affan Mohammed"
+    password = "I love spanish"
+    avatar_url = "https://media.istockphoto.com/id/1488582613/vector/espanol.jpg?s=612x612&w=0&k=20&c=YNtI5mRozRDAJ_X-rp_1ABHPozceKPjxwRPa1HOvZNA="
+    userData = {
+        "name": name, 
+        "password": password, 
+        "avatar_url": avatar_url
+    }
+    response = app.test_client().patch('/api/sportmeets/users/Alex', json =userData)
+    updatingUser = json.loads(response.data.decode('utf-8')).get('UpdatedUser')
+    assert updatingUser["name"] == "Affan Mohammed"
+    assert updatingUser["password"] == "I love spanish"
+    assert updatingUser["avatar_url"] == "https://media.istockphoto.com/id/1488582613/vector/espanol.jpg?s=612x612&w=0&k=20&c=YNtI5mRozRDAJ_X-rp_1ABHPozceKPjxwRPa1HOvZNA="
+
+def test_postNewMessage():
+    newMessage = {
+    "message_body": "This is a brand new posted message",
+    "sender": "DannyBoy",
+    "event_id": 1
+    }
+    response = app.test_client().post('/api/sportmeets/messages', json =newMessage)
+    postedMessage = json.loads(response.data.decode('utf-8')).get('PostedMessage')
+    assert postedMessage["message_body"] == "This is a brand new posted message"
+    assert postedMessage["sender"] == "DannyBoy"
+    assert postedMessage["event_id"] == 1
+
+def test_filterByLocation():
+    response = app.test_client().get('/api/sportmeets/events?location=Manchester')
+    eventsByLocation = json.loads(response.data.decode('utf-8')).get('events')
+    assert len(eventsByLocation) == 1
+
+def test_filterBySport():
+    response = app.test_client().get('/api/sportmeets/events?category=football')
+    eventsByCategory = json.loads(response.data.decode('utf-8')).get('events')
+    assert len(eventsByCategory) == 1

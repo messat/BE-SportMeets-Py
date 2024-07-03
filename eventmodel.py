@@ -2,19 +2,46 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from flask import jsonify
 
-def SelectAllEvents():
+def SelectAllEvents(location, event_category):
     """Selects all events from events table in the PostgreSQL database"""
-    try:
-        with psycopg2.connect("dbname=sport_meets_test") as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                command = """
-                SELECT * FROM events;
-                """
-                cur.execute(command)
-                events = cur.fetchall()
-                return jsonify({"events": events})
-    except (psycopg2.DatabaseError, Exception) as error:
-        print(f"Error: {error}")
+    if isinstance(location, str):
+          # Correct type check
+        try:
+            with psycopg2.connect("dbname=sport_meets_test") as conn:
+                with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                    command = """
+                    SELECT * FROM events WHERE event_location = %s;
+                    """
+                    cur.execute(command, (location,))
+                    events = cur.fetchall()
+                    return jsonify({"events": events})
+        except (psycopg2.DatabaseError, Exception) as error:
+            print(f"Error: {error}")
+
+    if isinstance(event_category, str):  # Correct type check
+        try:
+            with psycopg2.connect("dbname=sport_meets_test") as conn:
+                with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                    command = """
+                    SELECT * FROM events WHERE event_category = %s;
+                    """
+                    cur.execute(command, (event_category,))
+                    events = cur.fetchall()
+                    return jsonify({"events": events})
+        except (psycopg2.DatabaseError, Exception) as error:
+            print(f"Error: {error}")
+    else:
+        try:
+            with psycopg2.connect("dbname=sport_meets_test") as conn:
+                with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                    command = """
+                    SELECT * FROM events;
+                    """
+                    cur.execute(command)
+                    events = cur.fetchall()
+                    return jsonify({"events": events})
+        except (psycopg2.DatabaseError, Exception) as error:
+            print(f"Error: {error}")
 
 def SelectEventByID(event_id): 
     """Selects an individual user from users table in the PostgreSQL database"""
@@ -83,11 +110,10 @@ def deleteById(event_id):
                 delete_command = """
                     DELETE from events 
                     WHERE event_id = %s
-                    RETURNING *;
                     """
                 cur.execute(delete_command, (event_id))
                 deleteEvent = cur.fetchone()  # Use fetchone() for single row return
-                return jsonify({"DeleteEvent": deleteEvent})
+                return "Succesfully Deleted"
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"Error: {error}")
         return jsonify({"error": str(error)})

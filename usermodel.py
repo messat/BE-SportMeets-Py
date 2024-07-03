@@ -30,3 +30,45 @@ def selectByUsername(username):
                 return jsonify({"user": user})
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"Error: {error}")
+
+
+def addSingleUser(newUserData): 
+    print("Model", newUserData)
+    """Add a new user to users table in the PostgreSQL database"""
+    try:
+        with psycopg2.connect("dbname=sport_meets_test") as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                command = """
+                INSERT INTO users (username, name, password, avatar_url)
+                VALUES (%s, %s, %s, %s) RETURNING *;                
+                """
+                cur.execute(command, (newUserData["username"], newUserData["name"], newUserData["password"], newUserData["avatar_url"]))
+                user = cur.fetchone()
+                return jsonify({"newUser": user})
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(f"Error: {error}")
+
+
+def updateSingleUser(updatedUser, username): 
+    """Updating a single user in the events table in the PostgreSQL database"""
+    try:
+        with psycopg2.connect("dbname=sport_meets_test") as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                update_command = """
+                    UPDATE users 
+                    SET name = %s, password = %s, avatar_url = %s
+                    WHERE username = %s
+                    RETURNING *;
+                    """
+                cur.execute(update_command, (
+                    updatedUser["name"], 
+                    updatedUser["password"], 
+                    updatedUser["avatar_url"], 
+                    username
+                ))
+                updatedSingleUser = cur.fetchone()  # Use fetchone() for single row return
+                return jsonify({"UpdatedUser": updatedSingleUser})
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(f"Error: {error}")
+        return jsonify({"error": str(error)})
+    

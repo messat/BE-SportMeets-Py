@@ -9,6 +9,9 @@ from messagecontroller import getMessagesByEventID
 from eventcontroller import postSingleEvent
 from eventcontroller import patchSingleEvent
 from eventcontroller import deleteSingleEvent
+from usercontroller import postSingleUser
+from usercontroller import patchSingleUser
+from messagecontroller import PostNewMessage
 
 @app.route('/api/sportmeets/users')
 def users():
@@ -20,7 +23,9 @@ def user(username):
 
 @app.route('/api/sportmeets/events')
 def events():
-    return getAllEvents()
+    location = request.args.get('location')
+    event_category = request.args.get('category')
+    return getAllEvents(location, event_category)
 
 @app.route('/api/sportmeets/events/<event_id>')
 def event(event_id):
@@ -45,5 +50,22 @@ def patch(event_id):
 def delete(event_id):
     return deleteSingleEvent(event_id)
 
+@app.route('/api/sportmeets/users', methods = ['POST'])
+def postNewUser():
+    newUserData = request.get_json()
+    return postSingleUser(newUserData)
+
+@app.route('/api/sportmeets/users/<username>', methods = ['PATCH'])
+def patchUser(username):
+    updatedUser = request.get_json()
+    return patchSingleUser (updatedUser, username)
+
+@app.route('/api/sportmeets/messages', methods = ['POST'])
+def postNewMessage():
+    newMessage = request.get_json()
+    return PostNewMessage(newMessage)
+
+
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5021)
+    app.run(debug=True, port=5022)
