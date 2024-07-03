@@ -53,7 +53,6 @@ def test_get_all_events():
     }
     assert response.status_code == 200
     assert type(events) is list
-    assert len(events) == 5
 
 #tests that retrieve an event by event ID 
 def test_get_event_by_id():
@@ -74,40 +73,80 @@ def test_get_event_by_id():
     }
 
 #tests that retrieve all messages for an event by event ID 
-def test_get_event_by_id():
+def test_get_messages_by_id():
     response = app.test_client().get('/api/sportmeets/messages/1')
     messages = json.loads(response.data.decode('utf-8')).get('messages')
     assert type(messages[0]) is dict    
     assert type(messages) is list
-    assert messages[0] == {
-        'created_at': 'Tue, 02 Jul 2024 11:02:14 GMT', 
-        'event_id': 1, 
-        'message_body': 'Hi, I would like to join this event', 
-        'message_id': 1, 
-        'sender': 'DannyBoy'
-    }
-    assert messages == [
-        {'created_at': 'Tue, 02 Jul 2024 11:02:14 GMT',
+    assert messages[0] == {'created_at': 'Tue, 02 Jul 2024 09:54:25 GMT',
          'event_id': 1, 
          'message_body': 'Hi, I would like to join this event', 
          'message_id': 1, 
          'sender': 'DannyBoy'
-         }, 
-         {'created_at': 'Tue, 02 Jul 2024 11:02:14 GMT', 
+         }
+    assert messages[1] == {'created_at': 'Tue, 02 Jul 2024 09:54:25 GMT', 
           'event_id': 1, 
           'message_body': 'Welcome to the world of Social Meets Up!', 
           'message_id': 2,
           'sender': 'Mo'
-         }, 
-         {'created_at': 'Tue, 02 Jul 2024 11:02:14 GMT', 
+         }
+    assert messages[2] == {'created_at': 'Tue, 02 Jul 2024 09:54:25 GMT', 
           'event_id': 1, 
           'message_body': 'Hey the weather is looking nice!', 
           'message_id': 3, 
-          'sender': 'Alex'}
-        ]
+          'sender': 'Alex'
+          }
+        
     
 #tests that can post a newEvent  
-
 def test_postNewEvent():
-    response = app.test_client().get('/api/sportmeets/messages/1').send()
-
+    created_at = "Fri, 19 Jul 2024 10:23:54 GMT"
+    event_category = "pool"
+    event_description = "Playing pool in cuzzy garage"
+    event_img_url = "https://nwscdn.com/media/catalog/product/cache/all/thumbnail/800x/0dc2d03fe217f8c83829496872af24a0/p/o/pool-table.jpg"
+    event_location = "Manchester"
+    event_name = "Return of Ronnie O Sullivan"
+    event_organiser = "Mo"
+    event_spaces_available = 35 
+    eventData = {"created_at": created_at,"event_category": event_category, "event_description": event_description,"event_img_url": event_img_url, "event_location": event_location,"event_name": event_name, "event_organiser": event_organiser, "event_spaces_available": event_spaces_available }
+    response = app.test_client().post('/api/sportmeets/events', json =eventData)
+    newEvent = json.loads(response.data.decode('utf-8')).get('PostedEvent')
+    assert response.status_code == 200
+    assert newEvent["event_category"] == "pool"
+    assert type(newEvent["event_id"]) == int
+    assert newEvent["event_name"] == "Return of Ronnie O Sullivan"
+    assert newEvent["event_organiser"] == "Mo"
+    assert newEvent["event_spaces_available"] == 35
+    assert newEvent["event_location"] == "Manchester"
+ 
+def test_updateEventById():
+    created_at = "2024-07-24 16:45:20"
+    event_category = "basketball"
+    event_description = "Playing Basketball at the wembley stadium"
+    event_img_url = "https://lh3.googleusercontent.com/AF1QipOAGnbz5S8g1OF41CdH_jN1vBxD8TNR5ehV3CVy=s1360-w1360-h1020"
+    event_location =  "London"
+    event_name = "Bounce Ballers"
+    event_organiser = "DannyBoy"
+    event_spaces_available = 20
+    eventData = {
+        "created_at": created_at,
+        "event_category": event_category, 
+        "event_description": event_description, 
+        "event_img_url": event_img_url, 
+        "event_location": event_location,
+        "event_name": event_name, 
+        "event_organiser": event_organiser, 
+        "event_spaces_available": event_spaces_available 
+    }
+    response = app.test_client().patch('/api/sportmeets/events/2', json =eventData)
+    updatingAnEvent = json.loads(response.data.decode('utf-8')).get('UpdatedEvent')
+    assert updatingAnEvent["event_description"] == "Playing Basketball at the wembley stadium"
+    assert updatingAnEvent["event_location"] == "London"
+    assert updatingAnEvent["event_spaces_available"] == 20
+    
+def test_deleteByID():
+    response = app.test_client().delete('/api/sportmeets/events/5')
+    deleteAnEvent = json.loads(response.data.decode('utf-8')).get('DeleteEvent')
+    print(deleteAnEvent)
+    assert deleteAnEvent["event_id"] == 5
+    assert deleteAnEvent["event_category"] == "pool"

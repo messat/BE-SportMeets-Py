@@ -7,6 +7,8 @@ from eventcontroller import getAllEvents
 from eventcontroller import getEventByID
 from messagecontroller import getMessagesByEventID
 from eventcontroller import postSingleEvent
+from eventcontroller import patchSingleEvent
+from eventcontroller import deleteSingleEvent
 
 @app.route('/api/sportmeets/users')
 def users():
@@ -33,6 +35,15 @@ def messages(event_id):
 def post():
     data = request.get_json()
     return postSingleEvent(data)
+
+@app.route('/api/sportmeets/events/<event_id>', methods = ['PATCH'])
+def patch(event_id):
+    updatedEvent = request.get_json()
+    return patchSingleEvent(updatedEvent, event_id)
+
+@app.route('/api/sportmeets/events/<event_id>', methods = ['DELETE'])
+def delete(event_id):
+    return deleteSingleEvent(event_id)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5021)

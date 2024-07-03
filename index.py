@@ -22,3 +22,4 @@ if __name__ == '__main__':
     insert_Event_Data()
     insert_Junction_Data()
     insert_Messages_Data()
+

@@ -32,7 +32,6 @@ def SelectEventByID(event_id):
 
 def AddEvent(newEvent): 
     """Post a new Event to the events table in the PostgreSQL database"""
-    print(newEvent["event_name"])
     try:
         with psycopg2.connect("dbname=sport_meets_test") as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -45,3 +44,51 @@ def AddEvent(newEvent):
                 return jsonify({"PostedEvent": addedevent})
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"Error: {error}")
+
+
+def updatingASingleEvent(updatedEvent, event_id): 
+    """Updating a single event in the events table in the PostgreSQL database"""
+    try:
+        with psycopg2.connect("dbname=sport_meets_test") as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                update_command = """
+                    UPDATE events 
+                    SET event_name = %s, event_img_url = %s, event_description = %s, event_location = %s, event_spaces_available = %s, event_category = %s, event_organiser = %s
+                    WHERE event_id = %s
+                    RETURNING *;
+                    """
+                cur.execute(update_command, (
+                    updatedEvent["event_name"], 
+                    updatedEvent["event_img_url"], 
+                    updatedEvent["event_description"], 
+                    updatedEvent["event_location"], 
+                    updatedEvent["event_spaces_available"],
+                    updatedEvent["event_category"],
+                    updatedEvent["event_organiser"],
+                    event_id
+                ))
+                updatedAnEvent = cur.fetchone()  # Use fetchone() for single row return
+                return jsonify({"UpdatedEvent": updatedAnEvent})
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(f"Error: {error}")
+        return jsonify({"error": str(error)})
+    
+
+
+def deleteById(event_id): 
+    """Deletes a single event in the events table in the PostgreSQL database"""
+    try:
+        with psycopg2.connect("dbname=sport_meets_test") as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                delete_command = """
+                    DELETE from events 
+                    WHERE event_id = %s
+                    RETURNING *;
+                    """
+                cur.execute(delete_command, (event_id))
+                deleteEvent = cur.fetchone()  # Use fetchone() for single row return
+                return jsonify({"DeleteEvent": deleteEvent})
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(f"Error: {error}")
+        return jsonify({"error": str(error)})
+    
