@@ -1,8 +1,4 @@
-from  eventmodel import SelectAllEvents
-from eventmodel import SelectEventByID
-from eventmodel import AddEvent
-from eventmodel import updatingASingleEvent
-from eventmodel import deleteById
+from  eventmodel import SelectAllEvents, SelectEventByID, AddEvent, updatingASingleEvent, deleteById
 
 
 def getAllEvents(location, event_category):

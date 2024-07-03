@@ -147,7 +147,6 @@ def test_postNewUser():
         "password": password,
         "avatar_url": avatar_url
     }
-    print("test", userData)
     response = app.test_client().post('/api/sportmeets/users', json =userData)
     postedUser = json.loads(response.data.decode('utf-8')).get('newUser')
     assert postedUser["username"] == "Alex_G"
@@ -192,3 +191,8 @@ def test_filterBySport():
     response = app.test_client().get('/api/sportmeets/events?category=football')
     eventsByCategory = json.loads(response.data.decode('utf-8')).get('events')
     assert len(eventsByCategory) == 1
+
+def test_filterByLocationAndSport():
+    response = app.test_client().get('/api/sportmeets/events?location=Leeds&category=football')
+    filteredByLocationAndCategory = json.loads(response.data.decode('utf-8')).get('events')
+    assert len(filteredByLocationAndCategory) == 1

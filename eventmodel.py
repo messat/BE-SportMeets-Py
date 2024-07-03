@@ -4,6 +4,19 @@ from flask import jsonify
 
 def SelectAllEvents(location, event_category):
     """Selects all events from events table in the PostgreSQL database"""
+    if isinstance(location, str) and isinstance(event_category, str):  # Correct type check
+        try:
+            with psycopg2.connect("dbname=sport_meets_test") as conn:
+                with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                    command = """
+                    SELECT * FROM events WHERE event_location = %s and event_category = %s;
+                    """
+                    cur.execute(command, (location, event_category,))
+                    events = cur.fetchall()
+                    return jsonify({"events": events})
+        except (psycopg2.DatabaseError, Exception) as error:
+            print(f"Error: {error}")
+
     if isinstance(location, str):
           # Correct type check
         try:
@@ -30,6 +43,7 @@ def SelectAllEvents(location, event_category):
                     return jsonify({"events": events})
         except (psycopg2.DatabaseError, Exception) as error:
             print(f"Error: {error}")
+    
     else:
         try:
             with psycopg2.connect("dbname=sport_meets_test") as conn:

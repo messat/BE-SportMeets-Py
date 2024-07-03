@@ -2,16 +2,9 @@ from flask import Flask
 from usercontroller import getAllUsers  # Import the function correctly
 app = Flask(__name__)
 from flask import request
-from usercontroller import getByUsername
-from eventcontroller import getAllEvents
-from eventcontroller import getEventByID
-from messagecontroller import getMessagesByEventID
-from eventcontroller import postSingleEvent
-from eventcontroller import patchSingleEvent
-from eventcontroller import deleteSingleEvent
-from usercontroller import postSingleUser
-from usercontroller import patchSingleUser
-from messagecontroller import PostNewMessage
+from usercontroller import getByUsername, postSingleUser, patchSingleUser
+from eventcontroller import getAllEvents, getEventByID, postSingleEvent, patchSingleEvent, deleteSingleEvent
+from messagecontroller import getMessagesByEventID, PostNewMessage
 
 @app.route('/api/sportmeets/users')
 def users():
