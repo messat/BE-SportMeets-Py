@@ -1,4 +1,4 @@
-from messagemodel import SelectAllMessagesByEventID, AddNewMessage
+from model.messagemodel import SelectAllMessagesByEventID, AddNewMessage
 
 def getMessagesByEventID(event_id): 
     return SelectAllMessagesByEventID(event_id)
