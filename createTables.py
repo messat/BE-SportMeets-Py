@@ -1,6 +1,6 @@
 import psycopg2
 
-def create_tables():
+def create_tables(conn):
     """ Create tables in the PostgreSQL database"""
     commands = (
         """
@@ -53,7 +53,6 @@ def create_tables():
         )
         """)
     try:
-        with psycopg2.connect("dbname=sport_meets_test") as conn:
             with conn.cursor() as cur:
                 # execute the CREATE TABLE statement
                 for command in commands:

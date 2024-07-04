@@ -2,10 +2,12 @@
   "name": "be-sportmeets",
   "version": "1.0.0",
   "description": "Back-End Project using Python",
-  "main": "index.py",
+   "main": "listen.js",
   "scripts": {
-    "start": "python3 index.py",
-    "setup-dbs":"psql -f setup.sql",
+    "start": "python3 listen.js",
+    "seed-prod": "NODE_ENV=production python3 index.py",
+    "seed-dev": "NODE_ENV=development python3 index.py",
+    "setup-dbs": "psql -f setup.sql",
     "testingField": "psql -f test.sql > playground.txt"
   },
   "repository": {
@@ -17,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/messat/BE-SportMeets-Py/issues"
   },
-  "homepage": "https://github.com/messat/BE-SportMeets-Py#readme"
+  "homepage": "https://github.com/messat/BE-SportMeets-Py#readme",
+  "dependencies": {
+    "flask": "^0.2.10"
+  }
 }

@@ -6,6 +6,7 @@ from usercontroller import getByUsername, postSingleUser, patchSingleUser
 from eventcontroller import getAllEvents, getEventByID, postSingleEvent, patchSingleEvent, deleteSingleEvent
 from messagecontroller import getMessagesByEventID, PostNewMessage
 
+
 @app.route('/api/sportmeets/users')
 def users():
     return getAllUsers()
@@ -57,8 +58,6 @@ def patchUser(username):
 def postNewMessage():
     newMessage = request.get_json()
     return PostNewMessage(newMessage)
-
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5022)

@@ -1,12 +1,11 @@
 import psycopg2
 import json
 
-def insert_User_Data():
+def insert_User_Data(conn):
     """Inserts user data into tables in the PostgreSQL database"""
     with open('./data/userData.json') as file_object:
         user_data = json.load(file_object)
     try:
-        with psycopg2.connect(dbname="sport_meets_test") as conn:
             with conn.cursor() as cur:
                 for user in user_data:
                     command = """
@@ -20,18 +19,14 @@ def insert_User_Data():
             print('Successfully inserted user data into the table')
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"First Error: {error}")
-    finally:
-        if conn:
-            conn.close()
 
 
 
-def insert_Event_Data():
+def insert_Event_Data(conn):
     """Inserts events data into tables in the PostgreSQL database"""
     with open('./data/eventData.json') as file_object:
         event_data = json.load(file_object)
     try:
-        with psycopg2.connect(dbname="sport_meets_test") as conn:
             with conn.cursor() as cur:
                 for event in event_data:
                     command = """
@@ -45,16 +40,13 @@ def insert_Event_Data():
                 print('Successfully inserted event data into the table')
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"Second Error: {error}")
-    finally:
-        if conn:
-            conn.close()
 
-def insert_Junction_Data():
+
+def insert_Junction_Data(conn):
     """Inserts junctions data into tables in the PostgreSQL database"""
     with open('./data/junction.json') as file_object:
         junction_data = json.load(file_object)
     try:
-        with psycopg2.connect("dbname=sport_meets_test") as conn:
             with conn.cursor() as cur:
                 for junc in junction_data:
                     command = """
@@ -68,17 +60,14 @@ def insert_Junction_Data():
                 print('Successfully inserted junction data into the table')
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"Second Error: {error}")
-    finally:
-        if conn:
-            conn.close()
 
 
-def insert_Messages_Data():
+
+def insert_Messages_Data(conn):
     """Inserts Messages data into tables in the PostgreSQL database"""
     with open('./data/messagesData.json') as file_object:
         messages_data = json.load(file_object)
     try:
-        with psycopg2.connect("dbname=sport_meets_test") as conn:
             with conn.cursor() as cur:
                 for message in messages_data:
                     command = """
@@ -92,6 +81,3 @@ def insert_Messages_Data():
                 print('Successfully inserted messages data into the table')
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"Second Error: {error}")
-    finally:
-        if conn:
-            conn.close()
