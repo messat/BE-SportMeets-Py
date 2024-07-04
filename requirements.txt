@@ -11,7 +11,9 @@ packaging==24.1
 pluggy==1.5.0
 psycopg2==2.9.9
 pytest==8.2.2
+pytest-assume==2.4.3
 pytest-unordered==0.6.0
+python-dotenv==1.0.1
 pytz==2024.1
 six==1.16.0
 Werkzeug==3.0.3
