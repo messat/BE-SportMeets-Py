@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request
 
 from controller.usercontroller import getAllUsers, getByUsername, postSingleUser, patchSingleUser
-from controller.eventcontroller import getAllEvents, getEventByID, postSingleEvent, patchSingleEvent, deleteSingleEvent
+from controller.eventcontroller import getAllEvents, getEventByID, postSingleEvent, patchSingleEvent, deleteSingleEvent, getEventByUsername, sendNewUserEvent, getEventCategories
 from controller.messagecontroller import getMessagesByEventID, PostNewMessage
 app = Flask(__name__)
 
@@ -18,11 +18,16 @@ def user(username):
 def events():
     location = request.args.get('location')
     event_category = request.args.get('category')
-    return getAllEvents(location, event_category)
+    event_organiser = request.args.get('organiser')
+    return getAllEvents(location, event_category, event_organiser)
 
 @app.route('/api/sportmeets/events/<event_id>')
 def event(event_id):
     return getEventByID(event_id)
+
+@app.route('/api/sportmeets/user-events/<username>')
+def eventsearch(username):
+    return getEventByUsername(username)
 
 @app.route('/api/sportmeets/messages/<event_id>')
 def messages(event_id):
@@ -57,6 +62,15 @@ def patchUser(username):
 def postNewMessage():
     newMessage = request.get_json()
     return PostNewMessage(newMessage)
+
+@app.route('/api/sportmeets/join-event', methods = ['POST'])
+def postNewUserEvent():
+    newUserEvent = request.get_json()
+    return sendNewUserEvent(newUserEvent)
+
+@app.route('/api/sportmeets/categories')
+def categories():
+    return getEventCategories()
 
 # if __name__ == "__main__":
 #     app.run(debug=True, port=5022)

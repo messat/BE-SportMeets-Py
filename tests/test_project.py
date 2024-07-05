@@ -196,3 +196,30 @@ def test_filterByLocationAndSport():
     response = app.test_client().get('/api/sportmeets/events?location=Leeds&category=football')
     filteredByLocationAndCategory = json.loads(response.data.decode('utf-8')).get('events')
     assert len(filteredByLocationAndCategory) == 1
+
+
+def test_filterEventsByEventOrganiser():
+    response = app.test_client().get('/api/sportmeets/events?organiser=DannyBoy')
+    filteredByEventOrganiser = json.loads(response.data.decode('utf-8')).get('events')
+    assert filteredByEventOrganiser[0]["event_category"] == "basketball"
+    assert filteredByEventOrganiser[0]["event_organiser"] == "DannyBoy"
+    assert filteredByEventOrganiser[0]["event_img_url"] == "https://storage.googleapis.com/pod_public/1300/180358.jpg"
+
+def test_getAllEventsForUser():
+    response = app.test_client().get('/api/sportmeets/user-events/Mo')
+    userEventsArr = json.loads(response.data.decode('utf-8')).get('UserEvents')
+    assert userEventsArr[0]["event_id"] == 1
+
+def test_postUserEvent():
+    userevent = { "username": "Mo",
+                  "event_id": 2}
+    response = app.test_client().post('/api/sportmeets/join-event', json =userevent)
+    userEvent = json.loads(response.data.decode('utf-8')).get('PostedUserEvent')
+    assert response.status_code == 200
+    assert userEvent["event_id"] == 2
+    assert userEvent["username"] == "Mo"
+
+def test_getSportCategories(): 
+    response = app.test_client().get('/api/sportmeets/categories')
+    userEvent = json.loads(response.data.decode('utf-8')).get('Event_Categories')
+    assert len(userEvent) == 3    

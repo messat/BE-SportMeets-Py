@@ -1,12 +1,12 @@
 [{
 "username":"Mo",
-"event_id": "1"
+"event_id": 1
 },
 {
 "username":"DannyBoy",
-"event_id": "2"
+"event_id": 2
 },
 {
 "username":"Alex",
-"event_id": "3"
+"event_id": 3
 }]

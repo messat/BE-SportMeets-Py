@@ -8,7 +8,7 @@ def create_tables(conn):
         """,
         """
         DROP TABLE IF EXISTS user_events_junction
-        """,
+        """, 
         """
         DROP TABLE IF EXISTS events
         """,

@@ -2,7 +2,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from flask import jsonify
 
-def SelectAllEvents(location, event_category):
+def SelectAllEvents(location, event_category, event_organiser):
     """Selects all events from events table in the PostgreSQL database"""
     if isinstance(location, str) and isinstance(event_category, str):  # Correct type check
         try:
@@ -44,6 +44,20 @@ def SelectAllEvents(location, event_category):
         except (psycopg2.DatabaseError, Exception) as error:
             print(f"Error: {error}")
     
+
+    if isinstance(event_organiser, str):  # Correct type check
+        try:
+            with psycopg2.connect("dbname=sport_meets_test") as conn:
+                with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                    command = """
+                    SELECT * FROM events WHERE event_organiser = %s;
+                    """
+                    cur.execute(command, (event_organiser,))
+                    events = cur.fetchall()
+                    return jsonify({"events": events})
+        except (psycopg2.DatabaseError, Exception) as error:
+            print(f"Error: {error}")
+
     else:
         try:
             with psycopg2.connect("dbname=sport_meets_test") as conn:
@@ -131,4 +145,46 @@ def deleteById(event_id):
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"Error: {error}")
         return jsonify({"error": str(error)})
-    
+
+def SelectEventByUsername(username): 
+    """Selects all event ids from user event junction table table in the PostgreSQL database"""
+    try:
+        with psycopg2.connect("dbname=sport_meets_test") as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                command = """
+                SELECT event_id FROM user_events_junction WHERE username = %s;
+                """
+                cur.execute(command, (username,))
+                userevents = cur.fetchall()
+                return jsonify({"UserEvents": userevents})
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(f"Error: {error}")
+
+def PostNewUserEvent(newUserEvent): 
+    """Post a new user event to the user events junction table in the PostgreSQL database"""
+    try:
+        with psycopg2.connect("dbname=sport_meets_test") as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                command = """
+                    INSERT INTO user_events_junction (username, event_id)
+                    VALUES (%s, %s) RETURNING *;
+                    """
+                cur.execute(command, (newUserEvent["username"], newUserEvent["event_id"]))
+                newUserEvent = cur.fetchone()  # Use fetchone() for single row return
+                return jsonify({"PostedUserEvent": newUserEvent})
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(f"Error: {error}")
+
+def SelectEventCategories(): 
+    """Selects all unique event categories in the events table in the PostgreSQL database"""
+    try:
+        with psycopg2.connect("dbname=sport_meets_test") as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                command = """
+                SELECT DISTINCT event_category FROM events;
+                """
+                cur.execute(command)
+                event = cur.fetchall()
+                return jsonify({"Event_Categories": event})
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(f"Error: {error}")
