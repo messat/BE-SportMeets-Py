@@ -7,3 +7,4 @@ SELECT * FROM events WHERE event_category = 'football' and event_location = 'Lee
 SELECT * FROM user_events_junction;
 
 SELECT * FROM messages;
+
