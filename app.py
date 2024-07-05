@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from flask_cors import CORS, cross_origin
+from fastapi import FastAPI
 
 from controller.usercontroller import getAllUsers, getByUsername, postSingleUser, patchSingleUser
 from controller.eventcontroller import getAllEvents, getEventByID, postSingleEvent, patchSingleEvent, deleteSingleEvent, getEventByUsername, sendNewUserEvent, getEventCategories
@@ -90,5 +91,5 @@ def postNewUserEvent():
 def categories():
     return getEventCategories()
 
-# if __name__ == "__main__":
-#     app.run(debug=True, port=5022)
+if __name__ == "__main__":
+     app.run(debug=True, port=5022)
