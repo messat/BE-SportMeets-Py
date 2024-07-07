@@ -19,7 +19,7 @@ def selectAllUsers():
 def selectByUsername(username): 
     """Selects an individual user from users table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("dbname=sport_meets_test") as conn:
+        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 command = """
                 SELECT * FROM users WHERE username = %s;
@@ -36,7 +36,7 @@ def addSingleUser(newUserData):
     print("Model", newUserData)
     """Add a new user to users table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("dbname=sport_meets_test") as conn:
+        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 command = """
                 INSERT INTO users (username, name, password, avatar_url)
@@ -52,7 +52,7 @@ def addSingleUser(newUserData):
 def updateSingleUser(updatedUser, username): 
     """Updating a single user in the events table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("dbname=sport_meets_test") as conn:
+        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 update_command = """
                     UPDATE users 
