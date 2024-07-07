@@ -5,7 +5,7 @@ from flask import jsonify
 def selectAllUsers():
     """Selects all users from users table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("dbname=sport_meets_test") as conn:
+        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 command = """
                 SELECT * FROM users;
