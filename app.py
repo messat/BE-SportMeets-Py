@@ -12,7 +12,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 #python pathway 
 @app.route('/api/sportmeets/users')
 @cross_origin()
-def usersad():
+def users():
     return getAllUsers()
 
 @app.route('/api/sportmeets/users/<username>')
