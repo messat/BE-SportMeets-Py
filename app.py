@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from flask_cors import CORS, cross_origin
 from fastapi import FastAPI
+import asyncio
 
 from controller.usercontroller import getAllUsers, getByUsername, postSingleUser, patchSingleUser
 from controller.eventcontroller import getAllEvents, getEventByID, postSingleEvent, patchSingleEvent, deleteSingleEvent, getEventByUsername, sendNewUserEvent, getEventCategories
@@ -47,12 +48,10 @@ def messages(event_id):
 
 @app.route('/api/sportmeets/events', methods = ['POST'])
 @cross_origin()
-def post():
+async def post():
     data = request.get_json()
-    user_event = { data["username"],
-                   data["event_id"] }
-    sendNewUserEvent(user_event)
     return postSingleEvent(data)
+    
 
 @app.route('/api/sportmeets/events/<event_id>', methods = ['PATCH'])
 @cross_origin()
