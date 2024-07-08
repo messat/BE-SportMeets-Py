@@ -141,7 +141,7 @@ def deleteById(event_id):
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 delete_command = """
                     DELETE from events 
-                    WHERE event_id = %s
+                    WHERE event_id = %s;
                     """
                 cur.execute(delete_command, (event_id))
                 deleteEvent = cur.fetchone()  # Use fetchone() for single row return
