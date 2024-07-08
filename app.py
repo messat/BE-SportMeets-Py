@@ -1,14 +1,12 @@
 from flask import Flask
 from flask import request
 from flask_cors import CORS, cross_origin
-from fastapi import FastAPI
-import asyncio
 
 from controller.usercontroller import getAllUsers, getByUsername, postSingleUser, patchSingleUser
 from controller.eventcontroller import getAllEvents, getEventByID, postSingleEvent, patchSingleEvent, deleteSingleEvent, getEventByUsername, sendNewUserEvent, getEventCategories
 from controller.messagecontroller import getMessagesByEventID, PostNewMessage
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 #python pathway 
@@ -45,10 +43,9 @@ def eventsearch(username):
 def messages(event_id):
     return getMessagesByEventID(event_id)
 
-
 @app.route('/api/sportmeets/events', methods = ['POST'])
 @cross_origin()
-async def post():
+def post():
     data = request.get_json()
     return postSingleEvent(data)
     

@@ -4,21 +4,31 @@ from flask import jsonify
 
 production = "user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres"
 development = "dbname=sport_meets_test"
-enviroment = production
+enviroment = "development"
 
 def selectAllUsers():
     """Selects all users from users table in the PostgreSQL database"""
     try:
-        with psycopg2.connect(enviroment) as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                command = """
-                SELECT * FROM users;
+        if (enviroment == "production"):
+            with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+                with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                  command = """ 
+                   SELECT * FROM users;
+                """
+                cur.execute(command)
+                users = cur.fetchall()
+                return jsonify({"users": users})
+        elif (enviroment == "development"):
+            with psycopg2.connect("dbname=sport_meets_test") as conn:
+                with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                  command = """ 
+                   SELECT * FROM users;
                 """
                 cur.execute(command)
                 users = cur.fetchall()
                 return jsonify({"users": users})
     except (psycopg2.DatabaseError, Exception) as error:
-        print(f"Error: {error}")
+                  print(f"Error: {error}")
             
 def selectByUsername(username): 
     """Selects an individual user from users table in the PostgreSQL database"""

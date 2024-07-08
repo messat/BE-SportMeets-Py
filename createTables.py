@@ -30,7 +30,7 @@ def create_tables(conn):
             event_img_url VARCHAR(150) NOT NULL,
             event_description VARCHAR(150) NOT NULL,
             event_location VARCHAR(150) NOT NULL,
-            created_at TIMESTAMP NOT NULL,
+            created_at VARCHAR(150) NOT NULL,
             event_spaces_available INT NOT NULL,
             event_category VARCHAR(150) NOT NULL,
             event_organiser VARCHAR NOT NULL REFERENCES users(username)
