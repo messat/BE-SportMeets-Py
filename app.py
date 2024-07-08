@@ -49,6 +49,9 @@ def messages(event_id):
 @cross_origin()
 def post():
     data = request.get_json()
+    user_event = { data["username"],
+                   data["event_id"] }
+    sendNewUserEvent(user_event)
     return postSingleEvent(data)
 
 @app.route('/api/sportmeets/events/<event_id>', methods = ['PATCH'])

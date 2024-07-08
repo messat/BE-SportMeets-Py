@@ -2,10 +2,15 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from flask import jsonify
 
+production = "user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres"
+development = "dbname=sport_meets_test"
+enviroment = production
+
+
 def SelectAllMessagesByEventID(event_id): 
     """Selects all messages from the messages table that have a certain event ID in the PostgreSQL database"""
     try:
-        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+        with psycopg2.connect(enviroment) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 command = """
                 SELECT * FROM messages WHERE event_id = %s ORDER BY created_at ASC;
@@ -19,7 +24,7 @@ def SelectAllMessagesByEventID(event_id):
 def AddNewMessage(newMessage):
     """Post a new message to the messages table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+        with psycopg2.connect(enviroment) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 command = """
                     INSERT INTO messages (message_body, sender, event_id)

@@ -2,11 +2,15 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from flask import jsonify
 
+production = "user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres"
+development = "dbname=sport_meets_test"
+enviroment = production
+
 def SelectAllEvents(location, event_category, event_organiser):
     """Selects all events from events table in the PostgreSQL database"""
     if isinstance(location, str) and isinstance(event_category, str):  # Correct type check
         try:
-            with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+            with psycopg2.connect(enviroment) as conn:
                 with conn.cursor(cursor_factory=RealDictCursor) as cur:
                     command = """
                     SELECT * FROM events WHERE event_location = %s and event_category = %s;
@@ -20,7 +24,7 @@ def SelectAllEvents(location, event_category, event_organiser):
     if isinstance(location, str):
           # Correct type check
         try:
-            with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+            with psycopg2.connect(enviroment) as conn:
                 with conn.cursor(cursor_factory=RealDictCursor) as cur:
                     command = """
                     SELECT * FROM events WHERE event_location = %s;
@@ -33,7 +37,7 @@ def SelectAllEvents(location, event_category, event_organiser):
 
     if isinstance(event_category, str):  # Correct type check
         try:
-            with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+            with psycopg2.connect(enviroment) as conn:
                 with conn.cursor(cursor_factory=RealDictCursor) as cur:
                     command = """
                     SELECT * FROM events WHERE event_category = %s;
@@ -47,7 +51,7 @@ def SelectAllEvents(location, event_category, event_organiser):
 
     if isinstance(event_organiser, str):  # Correct type check
         try:
-            with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+            with psycopg2.connect(enviroment) as conn:
                 with conn.cursor(cursor_factory=RealDictCursor) as cur:
                     command = """
                     SELECT * FROM events WHERE event_organiser = %s;
@@ -60,7 +64,7 @@ def SelectAllEvents(location, event_category, event_organiser):
 
     else:
         try:
-            with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+            with psycopg2.connect(enviroment) as conn:
                 with conn.cursor(cursor_factory=RealDictCursor) as cur:
                     command = """
                     SELECT * FROM events;
@@ -74,7 +78,7 @@ def SelectAllEvents(location, event_category, event_organiser):
 def SelectEventByID(event_id): 
     """Selects an individual user from users table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+        with psycopg2.connect(enviroment) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 command = """
                 SELECT * FROM events WHERE event_id = %s;
@@ -88,7 +92,7 @@ def SelectEventByID(event_id):
 def AddEvent(newEvent): 
     """Post a new Event to the events table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+        with psycopg2.connect(enviroment) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 command = """
                     INSERT INTO events (event_name, event_img_url, event_description, event_location, created_at, event_spaces_available, event_category, event_organiser)
@@ -104,7 +108,7 @@ def AddEvent(newEvent):
 def updatingASingleEvent(updatedEvent, event_id): 
     """Updating a single event in the events table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+        with psycopg2.connect(enviroment) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 update_command = """
                     UPDATE events 
@@ -133,7 +137,7 @@ def updatingASingleEvent(updatedEvent, event_id):
 def deleteById(event_id): 
     """Deletes a single event in the events table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+        with psycopg2.connect(enviroment) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 delete_command = """
                     DELETE from events 
@@ -149,10 +153,13 @@ def deleteById(event_id):
 def SelectEventByUsername(username): 
     """Selects all event ids from user event junction table table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+        with psycopg2.connect(enviroment) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 command = """
-                SELECT event_id FROM user_events_junction WHERE username = %s;
+                SELECT events.* FROM events 
+                LEFT JOIN user_events_junction 
+                ON events.event_id = user_events_junction.event_id
+                WHERE username = %s;
                 """
                 cur.execute(command, (username,))
                 userevents = cur.fetchall()
@@ -163,7 +170,7 @@ def SelectEventByUsername(username):
 def PostNewUserEvent(newUserEvent): 
     """Post a new user event to the user events junction table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+        with psycopg2.connect(enviroment) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 command = """
                     INSERT INTO user_events_junction (username, event_id)
@@ -178,7 +185,7 @@ def PostNewUserEvent(newUserEvent):
 def SelectEventCategories(): 
     """Selects all unique event categories in the events table in the PostgreSQL database"""
     try:
-        with psycopg2.connect("user=postgres.agqagyjrdydvkyawzzwc password=Wwdc13xcode! host=aws-0-eu-west-2.pooler.supabase.com port=6543 dbname=postgres") as conn:
+        with psycopg2.connect(enviroment) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 command = """
                 SELECT DISTINCT event_category FROM events;
