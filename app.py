@@ -3,7 +3,7 @@ from flask import request
 from flask_cors import CORS, cross_origin
 
 from controller.usercontroller import getAllUsers, getByUsername, postSingleUser, patchSingleUser
-from controller.eventcontroller import getAllEvents, getEventByID, postSingleEvent, patchSingleEvent, deleteSingleEvent, getEventByUsername, sendNewUserEvent, getEventCategories
+from controller.eventcontroller import getAllEvents, getEventByID, postSingleEvent, patchSingleEvent, deleteSingleEvent, getEventByUsername, sendNewUserEvent, getEventCategories, getAllUserEvents
 from controller.messagecontroller import getMessagesByEventID, PostNewMessage
 app = Flask(__name__)
 CORS(app)
@@ -89,6 +89,12 @@ def postNewUserEvent():
 @cross_origin()
 def categories():
     return getEventCategories()
+
+@app.route('/api/sportmeets/userevents')
+@cross_origin()
+def userevents():
+    return getAllUserEvents()
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

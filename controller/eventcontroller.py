@@ -1,4 +1,4 @@
-from model.eventmodel import SelectAllEvents, SelectEventByID, AddEvent, updatingASingleEvent, deleteById, SelectEventByUsername, PostNewUserEvent, SelectEventCategories
+from model.eventmodel import SelectAllEvents, SelectEventByID, AddEvent, updatingASingleEvent, deleteById, SelectEventByUsername, PostNewUserEvent, SelectEventCategories, SelectUserEvents
 
 def getAllEvents(location, event_category, event_organiser):
     return SelectAllEvents(location, event_category, event_organiser)
@@ -23,3 +23,6 @@ def sendNewUserEvent(newUserEvent):
 
 def getEventCategories():
     return SelectEventCategories()
+
+def getAllUserEvents():
+    return SelectUserEvents()
