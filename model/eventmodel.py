@@ -226,3 +226,16 @@ def SelectUserEventByID(event_id):
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"Error: {error}")
             
+def SelectEventLocations(): 
+    """Selects all unique event locations in the events table in the PostgreSQL database"""
+    try:
+        with psycopg2.connect(enviroment) as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                command = """
+                SELECT DISTINCT event_location FROM events;
+                """
+                cur.execute(command)
+                event = cur.fetchall()
+                return jsonify({"Event_Locations": event})
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(f"Error: {error}")

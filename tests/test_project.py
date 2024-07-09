@@ -223,3 +223,4 @@ def test_getSportCategories():
     response = app.test_client().get('/api/sportmeets/categories')
     userEvent = json.loads(response.data.decode('utf-8')).get('Event_Categories')
     assert len(userEvent) == 3    
+
