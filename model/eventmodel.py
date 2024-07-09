@@ -209,4 +209,20 @@ def SelectUserEvents():
                 return jsonify({"UserEvents": event})
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"Error: {error}")
+
+
+def SelectUserEventByID(event_id): 
+    """Selects all user events in the user events table where it matches the event_id in the PostgreSQL database"""
+    try:
+        with psycopg2.connect(enviroment) as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                command = """
+                SELECT * FROM user_events_junction
+                WHERE event_id = %s;
+                """
+                cur.execute(command, (event_id,))
+                event = cur.fetchall()
+                return jsonify({"UserEvents": event})
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(f"Error: {error}")
             
