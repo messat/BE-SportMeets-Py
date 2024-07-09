@@ -134,22 +134,22 @@ def updatingASingleEvent(updatedEvent, event_id):
     
 
 
-def deleteById(event_id): 
+def deleteById(event_id):
     """Deletes a single event in the events table in the PostgreSQL database"""
     try:
         with psycopg2.connect(enviroment) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 delete_command = """
-                    DELETE from events 
+                    DELETE FROM events 
                     WHERE event_id = %s;
                     """
-                cur.execute(delete_command, (event_id))
-                deleteEvent = cur.fetchone()  # Use fetchone() for single row return
-                return "Succesfully Deleted"
+                cur.execute(delete_command, (event_id,))
+                conn.commit()
+                return "Successfully Deleted"
     except (psycopg2.DatabaseError, Exception) as error:
         print(f"Error: {error}")
         return jsonify({"error": str(error)})
-
+    
 def SelectEventByUsername(username): 
     """Selects all event ids from user event junction table table in the PostgreSQL database"""
     try:
