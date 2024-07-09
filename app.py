@@ -90,11 +90,6 @@ def postNewUserEvent():
 def categories():
     return getEventCategories()
 
-@app.route('/api/sportmeets/categories')
-@cross_origin()
-def categories():
-    return getEventCategories()
-
 @app.route('/api/sportmeets/locations')
 @cross_origin()
 def location():
